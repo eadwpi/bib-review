@@ -5,11 +5,12 @@ import sys
 import time
 
 list_of_scopus = []
-medical_jif_scopus = "medical_jif_scopus_authors_5-9.xlsx"
-medical_jif_jif = "medical_jif_scopus_authors_5-9.xlsx"
-medical_jif_final = "medical_jif_scopus_authors_5-9.xlsx"
+wpi_all_scopus = "wpi_all_scopus_authors_20oct.xlsx"
+wpi_all_jif = "wpi_all_scopus_authors_20oct.xlsx"
+wpi_all_final = "wpi_all_scopus_authors_20oct.xlsx"
 scopus_api_key = '123'
-wos_api_key = '456'
+# WPI does not subscribe to Clarivate products
+# wos_api_key = '456'
 um_affiliations = ['60021519', '60017287', '60004546', '60122645', '60009932', '60122646', '60016686', '60020817', '60122645', '60011479', '60017510']
 # issn jif jifYear jifCategory jifRank creator title journal {year;volume;issue;pages doi. pubmedId aggregationType affiliation
 journal_dict = {'issn': None,
@@ -89,7 +90,7 @@ def get_scopus_search_api(start):
         'accept': 'application/json',
         'X-ELS-APIKey': scopus_api_key
     }
-    params = {'query': '( AF-ID ( "University of Miami Leonard M. Miller School of Medicine" 60021519 ) )  AND PUBYEAR = 2023',
+    params = {'query': 'AF-ID ( 60011410 ) AND ( PUBYEAR > 2020 AND PUBYEAR < 2026 )',
               # 'facets': 'authname',
               'view': 'COMPLETE',
               'start': start
@@ -144,7 +145,8 @@ def get_scopus_author_api(author_id):
         print("No Author Search Results for above")
     return department
 
-
+# WPI does not have access to Clarivate tools
+"""
 def get_wos_api():
     wos_url = 'https://api.clarivate.com/apis/wos-journals/v1/journals'
 
@@ -238,7 +240,7 @@ def get_wos_api():
         time.sleep(1)
 
     return scopus_excel_df
-
+"""
 
 def append_scopus_results(results):
     for journal in results:
